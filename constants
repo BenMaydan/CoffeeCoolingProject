@@ -1,14 +1,14 @@
 static class ROOM {
-  static int NUMBER_OF_PARTICLES = 100;
-  static int PARTICLE_DIAMETER = 30;
+  static final int NUMBER_OF_PARTICLES = 100;
+  static final float PARTICLE_DIAMETER = 30;
 }
 
 static class COFFEE {
-  static int NUMBER_OF_PARTICLES = 50;
-  static int PARTICLE_DIAMETER = 30;
+  static final int NUMBER_OF_PARTICLES = 50;
+  static final float PARTICLE_DIAMETER = 30;
 }
 
 static class CREAMER {
-  static int NUMBER_OF_PARTICLES = 30;
-  static int PARTICLE_DIAMETER = 30;
+  static final int NUMBER_OF_PARTICLES = 30;
+  static final float PARTICLE_DIAMETER = 30;
 }
