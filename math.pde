@@ -9,20 +9,14 @@ void switchVelocities(Point p1, Point p2) {
   p2.dy = dyMiddle;
 }
 
-boolean circleIntersectsLine(Integer x1, Integer y1, Integer x2, Integer y2, float x3, float y3, float radius) {
-  Integer a = y1 - y2;
-  Integer b = x2 - x1;
-  float dist = abs(a*x3 + b*y3 + (x1*y2 - x2*y1)) / sqrt(a*a + b*b);
-  return radius == dist || radius > dist;
+boolean circleIntersectsLine(Point p1, Integer[] wall) {
+  return true;
 }
 
-boolean circleIntersectsCircle(Integer x1, Integer y1, Integer x2, Integer y2, float radsum){
+boolean circleIntersectsCircle(Point p1, Point p2){
   // Note that radsum is the sum of the circle radii
-  Integer xDist = abs(x1 - x2);
-  Integer yDist = abs(y1 - y2);
-  
+  float xDist = abs(p1.x - p2.x);
+  float yDist = abs(p1.y - p2.y);
   float dist = sqrt(xDist*xDist + yDist * yDist);
-  
-  if (dist < radsum) {return true;}
-  return false;
+  return dist < p1.radius+p1.radius;
 }
