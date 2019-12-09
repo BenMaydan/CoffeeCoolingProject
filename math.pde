@@ -17,6 +17,7 @@ boolean circleIntersectsLine(Integer x1, Integer y1, Integer x2, Integer y2, flo
 }
 
 boolean circleIntersectsCircle(Integer x1, Integer y1, Integer x2, Integer y2, float radsum){
+  // Note that radsum is the sum of the circle radii
   Integer xDist = abs(x1 - x2);
   Integer yDist = abs(y1 - y2);
   
