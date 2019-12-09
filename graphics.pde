@@ -31,24 +31,16 @@ void particleCollision(ArrayList<Point> particles, Integer[][] walls) {
   for (Point p1 : particles) {
     for (Point p2 : particles) {
       if (p1 != p2) {
-        if (dist(p1.x, p1.y, p2.x, p2.y) <= min(p1.radius, p2.radius))
+        if (circleIntersectsCircle(p1, p2))
           switchVelocities(p1, p2);
       }
     }
     for (int wi = 0; wi < walls.length; wi++) {
-      // check for collision
-      Integer[] w = walls[wi];
-      //float theta = atan(p1.dy/p1.dx);
-      //print(theta);
-      //float nx = p1.x+(p1.radius*cos(theta));
-      //float ny = p1.x+(p1.radius*sin(theta));
-      //fill(100);
-      //circle(nx, ny, p1.radius*2);
-      if (
+      // Circle line collision
+      if (circleIntersectsLine(p1, walls[wi]))
+        // Do code here
+        p1.dx = -p1.dx;
+        p1.dy = -p1.dy;
     }
   }
-}
-
-float[] pointOnCircle(int x, int y, float rad, float radians) {
-  return new float[] {x+(rad * cos(radians)), y+(rad * sin(radians))};
 }
