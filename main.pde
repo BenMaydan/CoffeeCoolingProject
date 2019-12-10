@@ -3,7 +3,7 @@ int ADD_WALL_INDEX = 0;
 color ROOM_PARTICLE_COLOR;
 color COFFEE_PARTICLE_COLOR;
 color CREAMER_PARTICLE_COLOR;
-ArrayList<Point> particles = new ArrayList<Point>();
+ArrayList<Particle> particles = new ArrayList<Particle>();
 Integer[][] walls = new Integer[14][4];
 
 void settings() {
@@ -38,15 +38,17 @@ void settings() {
 
   // Create particles in the left room
   for (int rp = 0; rp < ROOM.NUMBER_OF_PARTICLES; rp++)
-    particles.add(new Point(random(ROOM.PARTICLE_DIAMETER/2, width/2-ROOM.PARTICLE_DIAMETER/2), random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2), ROOM.PARTICLE_DIAMETER, ROOM_PARTICLE_COLOR).setDXY(random(-3, 3), random(-3, 3)));
+    particles.add(new Particle(random(ROOM.PARTICLE_DIAMETER/2, width/2-ROOM.PARTICLE_DIAMETER/2), random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2), ROOM.PARTICLE_DIAMETER, ROOM_PARTICLE_COLOR).multVelocity(random(-3, 3)));
 }
 
 void draw() {
-  // background(255);
+  background(255);
   for (int i = 0; i < walls.length; i++)
     line(walls[i][0], walls[i][1],walls[i][2], walls[i][3]);
-  for (Point p : particles)
-    drawParticle(p.updatePosition());
-  particleCollision(particles, walls);
+  for (Particle p : particles) {
+    drawParticle(p);
+    p.update();
+  }
+  checkCollision(particles, walls);
   // Right side of the room: Coffee and creamer in the room for 30 minutes and then mixed
 }
