@@ -9,13 +9,6 @@ void switchVelocities(Point p1, Point p2) {
   p2.dy = dyMiddle;
 }
 
-float getDist(float x1, float y1, float x2, float y2){
-  float xDist = abs(x1 - x2);
-  float yDist = abs(y1 - y2);
-  float dist = sqrt(xDist*xDist + yDist*yDist);
-  return dist;
-}
-
 boolean circleIntersectsLine(Point center, Integer[] seg) {
   // To do
   // Will do later if nobody else will
@@ -26,6 +19,5 @@ boolean circleIntersectsLine(Point center, Integer[] seg) {
 }
 
 boolean circleIntersectsCircle(Point p1, Point p2){
-  float dist = getDist(p1.x, p1.y, p2.x, p2.y);
-  return (dist < p1.radius + p2.radius);
+  return (dist(p1.x, p1.y, p2.x, p2.y) < p1.radius + p2.radius);
 }
