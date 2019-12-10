@@ -11,10 +11,6 @@ class Point {
   }
   
   Point setDXY(float xv, float yv) { dx = xv; dy = yv; return this; }
-  Point multDX(float amount) { dx *= amount; return this; }
-  Point multDY(float amount) { dy *= amount; return this; }
-  Point addDX(float amount) { dx += amount; return this; }
-  Point addDY(float amount) { dy += amount; return this; }
   Point updatePosition() { x += dx; y += dy; return this; }
 }
 
