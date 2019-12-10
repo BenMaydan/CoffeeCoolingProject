@@ -9,6 +9,10 @@ void switchVelocities(Point p1, Point p2) {
   p2.dy = dyMiddle;
 }
 
+float velocity(int dx, int dy){
+  return sqrt(dy*dx + dy*dy);
+}
+
 boolean circleIntersectsLine(Point center, Integer[] seg) {
   // To do
   // Will do later if nobody else will
