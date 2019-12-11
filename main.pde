@@ -8,6 +8,7 @@ Integer[][] walls = new Integer[14][4];
 
 void settings() {
   size(1400, 800);
+  // frameRate(1000);
   ROOM_PARTICLE_COLOR = color(171, 255, 241);
   COFFEE_PARTICLE_COLOR = color(117, 62, 18);
   CREAMER_PARTICLE_COLOR = color(255, 251, 215);
@@ -38,7 +39,16 @@ void settings() {
 
   // Create particles in the left room
   for (int rp = 0; rp < ROOM.NUMBER_OF_PARTICLES; rp++)
-    particles.add(new Particle(random(ROOM.PARTICLE_DIAMETER/2, width/2-ROOM.PARTICLE_DIAMETER/2), random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2), ROOM.PARTICLE_DIAMETER, ROOM_PARTICLE_COLOR).multVelocity(random(-3, 3)));
+    particles.add(new Particle(
+                                random(ROOM.PARTICLE_DIAMETER/2, width/2-ROOM.PARTICLE_DIAMETER/2),
+                                random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2),
+                                ROOM.PARTICLE_DIAMETER/2,
+                                ROOM_PARTICLE_COLOR)
+                  .setVelocity(random(-3, 3), random(-3, 3))
+                  .setMass(ROOM.MASS)
+                  .setSpecificHeat(ROOM.SPECIFIC_HEAT)
+                  .setTemperature(20)
+                  );
 }
 
 void draw() {
@@ -46,8 +56,9 @@ void draw() {
   for (int i = 0; i < walls.length; i++)
     line(walls[i][0], walls[i][1],walls[i][2], walls[i][3]);
   for (Particle p : particles) {
-    drawParticle(p);
-    p.update();
+    p.show();
+    // p.showVelocity();
+    p.update(1);
   }
   checkCollision(particles, walls);
   // Right side of the room: Coffee and creamer in the room for 30 minutes and then mixed
