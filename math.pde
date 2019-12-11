@@ -1,10 +1,16 @@
-void switchVelocities(Particle p1, Particle p2) {
-  // Make an elastic collision happen here
-  
+double roundDecimal(double num, int numAfterDecimal) {
+  String s = ""+num;
+  return Double.parseDouble(s.substring(0, s.indexOf(".")+1+numAfterDecimal));
 }
 
-float velocity(float dx, float dy){
-  return sqrt(dy*dx + dy*dy);
+double averageVelocity(ArrayList<Particle> particles){
+  double sumVelocities = 0;
+  int size = 0;
+  for (Particle p : particles) {
+    sumVelocities += p.velocity();
+    size++;
+  }
+  return sumVelocities/particles.size();
 }
 
 void checkCollision(ArrayList<Particle> particles, Integer[][] walls) {
@@ -47,6 +53,7 @@ boolean particleLineCollision(Particle p, Integer[] seg) {
 }
 
 boolean particleParticleCollision(Particle p1, Particle p2){
+  // https://www.daniweb.com/programming/software-development/threads/514942/circle-ball-collision-problem
   boolean collision = dist(p1.x, p1.y, p2.x, p2.y) < p1.radius + p2.radius;
   if (collision) {
     double xDist = (p1.x + p1.radius) - (p2.x + p2.radius);
