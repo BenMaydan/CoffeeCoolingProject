@@ -21,7 +21,7 @@ class Particle {
   Particle setSpecificHeat(double nspecificheat) { SPECIFIC_HEAT = nspecificheat; return this; }
   Particle setTemperature(double ntemp) { TEMPERATURE = ntemp; return this; }
 
-  double velocity() { return sqrt(dy*dx + dy*dy); }
+  double velocity() { return sqrt(dx*dx + dy*dy); }
 
   Particle update(int amount) {
     x += dx;
