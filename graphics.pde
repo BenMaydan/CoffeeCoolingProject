@@ -22,6 +22,7 @@ class Particle {
   Particle setTemperature(double ntemp) { TEMPERATURE = ntemp; return this; }
 
   double velocity() { return sqrt(dy*dx + dy*dy); }
+
   Particle update(int amount) {
     x += dx;
     y += dy;
@@ -31,6 +32,16 @@ class Particle {
   void show() {
     fill(c);
     circle(x, y, radius*2);
+    noFill();
+  }
+  
+  void showVelocity() {
+    fill(0);
+    strokeWeight(2);
+    stroke(200, 0, 0);
+    line(x, y, x+10*dx, y+10*dy);
+    stroke(0);
+    strokeWeight(1);
     noFill();
   }
 }
