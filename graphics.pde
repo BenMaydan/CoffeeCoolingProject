@@ -21,6 +21,7 @@ class Particle {
   Particle setSpecificHeat(double nspecificheat) { SPECIFIC_HEAT = nspecificheat; return this; }
   Particle setTemperature(double ntemp) { TEMPERATURE = ntemp; return this; }
 
+  double velocity() { return sqrt(dy*dx + dy*dy); }
   Particle update(int amount) {
     x += dx;
     y += dy;
@@ -31,33 +32,5 @@ class Particle {
     fill(c);
     circle(x, y, radius*2);
     noFill();
-  }
-
-  void checkBoundaryCollision() {
-    if (x > width-radius) {
-      x = width-radius;
-      dx *= -1;
-    } else if (x < radius) {
-      x = radius;
-      dx *= -1;
-    } else if (y > height-radius) {
-      y = height-radius;
-      dy *= -1;
-    } else if (y < radius) {
-      y = radius;
-      dy *= -1;
-    }
-  }
-}
-
-void checkCollision(ArrayList<Particle> particles, Integer[][] walls) {
-  for (Particle p1 : particles) {
-    p1.checkBoundaryCollision();
-    for (Particle p2 : particles) {
-      particleParticleCollision(p1, p2);
-    }
-     for (int wi = 0; wi < walls.length; wi++) {
-       particleLineCollision(p1, walls[wi]);
-     }
   }
 }
