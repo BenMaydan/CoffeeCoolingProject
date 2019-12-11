@@ -48,5 +48,27 @@ boolean particleLineCollision(Particle p, Integer[] seg) {
 
 boolean particleParticleCollision(Particle p1, Particle p2){
   boolean collision = dist(p1.x, p1.y, p2.x, p2.y) < p1.radius + p2.radius;
+  if (collision) {
+    double xDist = (p1.x + p1.radius) - (p2.x + p2.radius);
+    double yDist = (p1.y + p1.radius) - (p2.y + p2.radius);
+    double distSquared = xDist * xDist + yDist * yDist;
+    double xVelocity = p2.dx - p1.dx;
+    double yVelocity = p2.dy - p1.dy;
+    double dotProduct = xDist * xVelocity + yDist * yVelocity;
+    if (dotProduct > 0) { // moving towards each other
+        double collisionScale = dotProduct / distSquared;
+        double xCollision = xDist * collisionScale;
+        double yCollision = yDist * collisionScale;
+        //The Collision vector is the speed difference projected on the Dist vector,
+        //thus it is the component of the speed difference needed for the collision.
+        double combinedMass = p1.radius * p1.radius + p2.radius * p2.radius; // mass porp. to area
+        double collisionWeightA = 2* p2.radius * p2.radius / combinedMass;
+        double collisionWeightB = 2* p1.radius * p1.radius / combinedMass;
+        p1.dx += collisionWeightA * xCollision;
+        p1.dy += collisionWeightA * yCollision;
+        p2.dx -= collisionWeightB * xCollision;
+        p2.dy -= collisionWeightB * yCollision;
+    }
+  }
   return collision;
 }
