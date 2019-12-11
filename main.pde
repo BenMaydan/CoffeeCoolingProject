@@ -4,11 +4,10 @@ color ROOM_PARTICLE_COLOR;
 color COFFEE_PARTICLE_COLOR;
 color CREAMER_PARTICLE_COLOR;
 ArrayList<Particle> particles = new ArrayList<Particle>();
-Integer[][] walls = new Integer[14][4];
+Integer[][] walls = new Integer[10][4];
 
 void settings() {
   size(1400, 800);
-  // frameRate(1000);
   ROOM_PARTICLE_COLOR = color(171, 255, 241);
   COFFEE_PARTICLE_COLOR = color(117, 62, 18);
   CREAMER_PARTICLE_COLOR = color(255, 251, 215);
@@ -19,10 +18,6 @@ void settings() {
   int xCupLeftSide = (width/2)/5;
   int xCupRightSide = (width/2)+3*(width/2/6);
   int yCup = height/5*4;
-  walls[ADD_WALL_INDEX++] = new Integer[] {0, height-1, width, height-1};
-  walls[ADD_WALL_INDEX++] = new Integer[] {width-1, height, width-1, 0};
-  walls[ADD_WALL_INDEX++] = new Integer[] {0, 1, width, 1};
-  walls[ADD_WALL_INDEX++] = new Integer[] {1, 0, 1, height};
   walls[ADD_WALL_INDEX++] = new Integer[] {width/2, 0, width/2, height};
 
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupLeftSide, yCup, xCupLeftSide, yCup-2*(height/5)};
@@ -44,7 +39,7 @@ void settings() {
                                 random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2),
                                 ROOM.PARTICLE_DIAMETER/2,
                                 ROOM_PARTICLE_COLOR)
-                  .setVelocity(random(-3, 3), random(-3, 3))
+                  .setVelocity(random(-5, 5), random(-5, 5))
                   .setMass(ROOM.MASS)
                   .setSpecificHeat(ROOM.SPECIFIC_HEAT)
                   .setTemperature(20)
@@ -52,6 +47,7 @@ void settings() {
 }
 
 void draw() {
+  strokeWeight(1);
   background(255);
   for (int i = 0; i < walls.length; i++)
     line(walls[i][0], walls[i][1],walls[i][2], walls[i][3]);
@@ -61,5 +57,10 @@ void draw() {
     p.update(1);
   }
   checkCollision(particles, walls);
+  
+  fill(0);
+  textSize(24);
+  text("Average velocity: " + roundDecimal(averageVelocity(particles), 3), 25, 30);
+  noFill();
   // Right side of the room: Coffee and creamer in the room for 30 minutes and then mixed
 }
