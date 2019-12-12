@@ -1,3 +1,7 @@
+float zeroToOne(float x){
+  return (exp(x)/(exp(x))+1)*2+1;
+}
+
 double roundDecimal(double num, int numAfterDecimal) {
   String s = ""+num;
   return Double.parseDouble(s.substring(0, s.indexOf(".")+1+numAfterDecimal));
