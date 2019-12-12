@@ -1,5 +1,5 @@
 float zeroToOne(float x){
-  return (exp(x)/(exp(x))+1)*2+1;
+  return (exp(x)/(exp(x))+1)*2-1;
 }
 
 double roundDecimal(double num, int numAfterDecimal) {
