@@ -3,7 +3,8 @@ int ADD_WALL_INDEX = 0;
 color ROOM_PARTICLE_COLOR;
 color COFFEE_PARTICLE_COLOR;
 color CREAMER_PARTICLE_COLOR;
-ArrayList<Particle> particles = new ArrayList<Particle>();
+ArrayList<Particle> LR_particles = new ArrayList<Particle>();
+ArrayList<Particle> RR_particles = new ArrayList<Particle>();
 Integer[][] walls = new Integer[10][4];
 
 void settings() {
@@ -32,10 +33,22 @@ void settings() {
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupRightSide-width/2/7, yCup, xCupRightSide-width/2/7, yCup-height/5};
 
 
-  // Create particles in the left room
+  // Create LR_particles in the left room
   for (int rp = 0; rp < ROOM.NUMBER_OF_PARTICLES; rp++)
-    particles.add(new Particle(
+    LR_particles.add(new Particle(
                                 random(ROOM.PARTICLE_DIAMETER/2, width/2-ROOM.PARTICLE_DIAMETER/2),
+                                random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2),
+                                ROOM.PARTICLE_DIAMETER/2,
+                                ROOM_PARTICLE_COLOR)
+                  .setVelocity(random(-5, 5), random(-5, 5))
+                  .setMass(ROOM.MASS)
+                  .setSpecificHeat(ROOM.SPECIFIC_HEAT)
+                  .setTemperature(20)
+                  );
+  // Create RR_particles in the left room
+  for (int rp = 0; rp < ROOM.NUMBER_OF_PARTICLES; rp++)
+    RR_particles.add(new Particle(
+                                random(width/2+ROOM.PARTICLE_DIAMETER/2, width-ROOM.PARTICLE_DIAMETER/2),
                                 random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2),
                                 ROOM.PARTICLE_DIAMETER/2,
                                 ROOM_PARTICLE_COLOR)
@@ -51,16 +64,23 @@ void draw() {
   background(255);
   for (int i = 0; i < walls.length; i++)
     line(walls[i][0], walls[i][1],walls[i][2], walls[i][3]);
-  for (Particle p : particles) {
+  for (Particle p : LR_particles) {
     p.show();
-    // p.showVelocity();
     p.update(1);
   }
-  checkCollision(particles, walls);
+  for (Particle p : RR_particles) {
+    p.show();
+    p.update(1);
+  }
+
+  // Left room particle collision
+  checkCollision(LR_particles, walls);
+  // Right room particle collision
+  checkCollision(RR_particles, walls);
   
   fill(0);
   textSize(24);
-  text("Average velocity: " + roundDecimal(averageVelocity(particles), 3), 25, 30);
+  text("Average velocity: " + roundDecimal(averageVelocity(LR_particles), 3), 25, 30);
   noFill();
   // Right side of the room: Coffee and creamer in the room for 30 minutes and then mixed
 }
