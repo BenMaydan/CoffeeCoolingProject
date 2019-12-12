@@ -19,9 +19,9 @@ void checkCollision(ArrayList<Particle> particles, Integer[][] walls) {
     for (Particle p2 : particles) {
       particleParticleCollision(p1, p2);
     }
-     for (int wi = 0; wi < walls.length; wi++) {
-       particleLineCollision(p1, walls[wi]);
-     }
+      for (int wi = 0; wi < walls.length; wi++) {
+        particleLineCollision(p1, walls[wi]);
+      }
   }
 }
 
@@ -43,13 +43,34 @@ boolean particleBoundaryCollision(Particle p) {
   }
 
 boolean particleLineCollision(Particle p, Integer[] seg) {
-  // To do
-  // Will do later if nobody else will
-  // Note, a circle will intersect with a line segment if
-  // It intersects with the line segment's line
-  // or one of the end Particles is inside the circle
-  boolean collision = false;
-  return collision;
+  double dist;
+  float v1x = seg[2] - seg[0];
+  float v1y = seg[3] - seg[1];
+  float v2x = p.x - seg[0];
+  float v2y = p.y - seg[1];
+  // get the unit distance along the line of the closest point to
+  // circle center
+  double u = (v2x * v1x + v2y * v1y) / (v1y * v1y + v1x * v1x);
+  
+  
+  // if the point is on the line segment get the distance squared
+  // from that point to the circle center
+  if(u >= 0 && u <= 1){
+      dist = pow((float)(seg[0] + v1x * u - p.x), 2) + pow((float)(seg[1] + v1y * u - p.y), 2);
+  } else {
+      // if closest point not on the line segment
+      // use the unit distance to determine which end is closest
+      // and get dist square to circle
+      dist = u < 0 ?
+            pow(seg[0] - p.x, 2) + pow(seg[1] - p.y, 2) :
+            pow(seg[2] - p.x, 2) + pow(seg[3] - p.y, 2);
+  }
+  
+  if (dist < p.radius * p.radius) {
+    p.dx = -p.dx;
+    p.dy = -p.dy;
+  }
+  return dist < p.radius * p.radius;
 }
 
 boolean particleParticleCollision(Particle p1, Particle p2){
