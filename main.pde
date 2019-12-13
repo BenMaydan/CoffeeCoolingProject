@@ -20,14 +20,12 @@ void settings() {
   int xCupRightSide = (width/2)+3*(width/2/6);
   int yCup = height/5*4;
   walls[ADD_WALL_INDEX++] = new Integer[] {width/2, 0, width/2, height};
-
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupLeftSide, yCup, xCupLeftSide, yCup-2*(height/5)};
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupLeftSide, yCup, width/2-width/2/5, yCup};
   walls[ADD_WALL_INDEX++] = new Integer[] {width/2-width/2/5, yCup, width/2-width/2/5, yCup-2*(height/5)};
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupRightSide, yCup, xCupRightSide, yCup-2*(height/5)};
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupRightSide, yCup, width-width/2/5, yCup};
   walls[ADD_WALL_INDEX++] = new Integer[] {width-width/2/5, yCup, width-width/2/5, yCup-2*(height/5)};
-
   walls[ADD_WALL_INDEX++] = new Integer[] {xCreamerCup, yCup, xCreamerCup, yCup-height/5};
   walls[ADD_WALL_INDEX++] = new Integer[] {xCreamerCup, yCup, xCupRightSide-width/2/7, yCup};
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupRightSide-width/2/7, yCup, xCupRightSide-width/2/7, yCup-height/5};
@@ -66,11 +64,11 @@ void draw() {
     line(walls[i][0], walls[i][1],walls[i][2], walls[i][3]);
   for (Particle p : LR_particles) {
     p.show();
-    p.update(1);
+    p.update();
   }
   for (Particle p : RR_particles) {
     p.show();
-    p.update(1);
+    p.update();
   }
 
   // Left room particle collision
@@ -80,7 +78,7 @@ void draw() {
   
   fill(0);
   textSize(24);
-  text("Average velocity: " + roundDecimal(averageVelocity(LR_particles), 3), 25, 30);
+  text("Average velocity: " + truncateDecimal(averageVelocity(LR_particles), 3), 25, 30);
   noFill();
   // Right side of the room: Coffee and creamer in the room for 30 minutes and then mixed
 }
