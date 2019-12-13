@@ -15,8 +15,7 @@ class Particle {
     radius = r;
     c = colour;
   }
-  
-  // Particle setVelocity(float ndx, float ndy) { dx = ndx; dy = ndy; return this; }
+
   Particle setMass(double nmass) { MASS = nmass; return this; }
   Particle setSpecificHeat(double nspecificheat) { specific_heat = nspecificheat; return this; }
   Particle setTemperature(double tempInKelvin) {
@@ -40,12 +39,10 @@ class Particle {
     return this;
   }
   
-  Particle update(int amount, Integer[][] cupWalls) {
-    float vel = velocity();
-    if (!(particleLineCollision(this, cupWalls[0], vel) || particleLineCollision(this, cupWalls[1], vel) || particleLineCollision(this, cupWalls[3], vel) || particleLineCollision(this, cupWalls[3], vel))) {
-      x += dx;
-      y += dy;
-    }
+  Particle update(Integer[] cupWall) {
+    particleLineCollision(this, cupWall, velocity());
+    x += dx;
+    y += dy;
     return this;
   }
   
