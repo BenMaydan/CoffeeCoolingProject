@@ -21,11 +21,25 @@ class Particle {
   Particle setSpecificHeat(double nspecificheat) { SPECIFIC_HEAT = nspecificheat; return this; }
   Particle setTemperature(double ntemp) { TEMPERATURE = ntemp; return this; }
 
-  double velocity() { return sqrt(dx*dx + dy*dy); }
+  float velocity() { return sqrt(dx*dx + dy*dy); }
 
-  Particle update(int amount) {
+  Particle update() {
     x += dx;
     y += dy;
+    return this;
+  }
+  Particle multiply(float amount) {
+    dx *= amount;
+    dy *= amount;
+    return this;
+  }
+  
+  Particle update(int amount, Integer[][] cupWalls) {
+    float vel = velocity();
+    if (!(particleLineCollision(this, cupWalls[0], vel) || particleLineCollision(this, cupWalls[1], vel) || particleLineCollision(this, cupWalls[3], vel) || particleLineCollision(this, cupWalls[3], vel))) {
+      x += dx;
+      y += dy;
+    }
     return this;
   }
   
