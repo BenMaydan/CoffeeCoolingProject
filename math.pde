@@ -37,7 +37,7 @@ boolean particleLineCollision(Particle p, Integer[] seg, float velocityAfterColl
       dist = pow((float)(seg[0] + v1x * u - p.x), 2) + pow((float)(seg[1] + v1y * u - p.y), 2);
   else
       dist = u < 0 ? pow(seg[0] - p.x, 2) + pow(seg[1] - p.y, 2) : pow(seg[2] - p.x, 2) + pow(seg[3] - p.y, 2);
-  if (dist < p.radius * p.radius) {
+  if (dist < p.radius * p.radius || dist(seg[0], seg[1], p.x, p.y) < p.radius || dist(seg[2], seg[3], p.x, p.y) < p.radius) {
     PVector baseDelta = PVector.sub(new PVector(seg[0], seg[1]), new PVector(seg[2], seg[3])).normalize();
     PVector normal = new PVector(-baseDelta.y, baseDelta.x);
     PVector velocity = new PVector(p.dx, p.dy);
@@ -46,8 +46,6 @@ boolean particleLineCollision(Particle p, Integer[] seg, float velocityAfterColl
     velocity.set(2*normal.x*dot - incidence.x, 2*normal.y*dot - incidence.y, 0);
     p.dx = velocity.x * velocityAfterCollision;
     p.dy = velocity.y * velocityAfterCollision;
-    // p.x = ;
-    // p.y = ;
   }
   return dist < p.radius * p.radius;
 }
