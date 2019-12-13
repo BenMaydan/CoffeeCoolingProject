@@ -6,8 +6,8 @@ class Particle {
   float radius;
   color c;
   double MASS;
-  double SPECIFIC_HEAT;
-  double TEMPERATURE;
+  double specific_heat;
+  double temperature;
 
   Particle(float nx, float ny, float r, color colour) {
     x = nx;
@@ -16,10 +16,16 @@ class Particle {
     c = colour;
   }
   
-  Particle setVelocity(float ndx, float ndy) { dx = ndx; dy = ndy; return this; }
+  // Particle setVelocity(float ndx, float ndy) { dx = ndx; dy = ndy; return this; }
   Particle setMass(double nmass) { MASS = nmass; return this; }
-  Particle setSpecificHeat(double nspecificheat) { SPECIFIC_HEAT = nspecificheat; return this; }
-  Particle setTemperature(double ntemp) { TEMPERATURE = ntemp; return this; }
+  Particle setSpecificHeat(double nspecificheat) { specific_heat = nspecificheat; return this; }
+  Particle setTemperature(double tempInKelvin) {
+    temperature = tempInKelvin/60;
+    float randRadians = radians(random(0, 360));
+    dx = cos(randRadians)*(float)temperature;
+    dy = sin(randRadians)*(float)temperature;
+    return this;
+  }
 
   float velocity() { return sqrt(dx*dx + dy*dy); }
 
