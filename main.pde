@@ -4,8 +4,20 @@ color ROOM_PARTICLE_COLOR;
 color COFFEE_PARTICLE_COLOR;
 color CREAMER_PARTICLE_COLOR;
 ArrayList<Particle> LR_particles = new ArrayList<Particle>();
+ArrayList<Particle> LRC_particles = new ArrayList<Particle>();
 ArrayList<Particle> RR_particles = new ArrayList<Particle>();
+ArrayList<Particle> RRC_particles = new ArrayList<Particle>();
+ArrayList<Particle> RRCREAMER_particles = new ArrayList<Particle>();
+ArrayList<Particle> leftRoomParticles = new ArrayList<Particle>();
+ArrayList<Particle> rightRoomParticles = new ArrayList<Particle>();
 Integer[][] walls = new Integer[10][4];
+Integer[] leftCoffeeCupInvisibleWall;
+Integer[] rightCoffeeCupInvisibleWall;
+Integer[] rightCreamerCupInvisibleWall;
+int xCreamerCup;
+int xCupLeftSide;
+int xCupRightSide;
+int yCup;
 
 void settings() {
   size(1400, 800);
@@ -13,13 +25,17 @@ void settings() {
   COFFEE_PARTICLE_COLOR = color(117, 62, 18);
   CREAMER_PARTICLE_COLOR = color(255, 251, 215);
 
-
   // Create walls
-  int xCreamerCup = width/2+width/2/10;
-  int xCupLeftSide = (width/2)/5;
-  int xCupRightSide = (width/2)+3*(width/2/6);
-  int yCup = height/5*4;
-  walls[ADD_WALL_INDEX++] = new Integer[] {width/2, 0, width/2, height};
+  xCreamerCup = width/2+width/2/10;
+  xCupLeftSide = (width/2)/5;
+  xCupRightSide = (width/2)+3*(width/2/6);
+  yCup = height/5*4;
+  
+  leftCoffeeCupInvisibleWall = new Integer[] {xCupLeftSide, yCup-2*(height/5), width/2-width/2/5, yCup-2*(height/5)};
+  rightCoffeeCupInvisibleWall = new Integer[] {xCupRightSide, yCup-2*(height/5), (width-width/2/5), yCup-2*(height/5)};
+  rightCreamerCupInvisibleWall = new Integer[] {xCreamerCup, (yCup-height/5), (xCupRightSide-width/2/7), (yCup-height/5)};
+  
+  walls[ADD_WALL_INDEX++] = new Integer[] {width/2, -50, width/2, height+50};
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupLeftSide, yCup, xCupLeftSide, yCup-2*(height/5)};
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupLeftSide, yCup, width/2-width/2/5, yCup};
   walls[ADD_WALL_INDEX++] = new Integer[] {width/2-width/2/5, yCup, width/2-width/2/5, yCup-2*(height/5)};
@@ -53,6 +69,46 @@ void settings() {
                   .setSpecificHeat(ROOM.SPECIFIC_HEAT)
                   .setTemperature(303) // Kelvin
                   );
+  // Create particles in the left room coffee cup
+  for (int rp = 0; rp < COFFEE.NUMBER_OF_PARTICLES; rp++)
+    LRC_particles.add(new Particle(
+                                random(xCupLeftSide+COFFEE.PARTICLE_DIAMETER/2, (width/2-width/2/5)-COFFEE.PARTICLE_DIAMETER/2),
+                                random((yCup-2*(height/5))+COFFEE.PARTICLE_DIAMETER/2, yCup-COFFEE.PARTICLE_DIAMETER/2),
+                                COFFEE.PARTICLE_DIAMETER/2,
+                                COFFEE_PARTICLE_COLOR)
+                  .setMass(COFFEE.MASS)
+                  .setSpecificHeat(COFFEE.SPECIFIC_HEAT)
+                  .setTemperature(363) // Kelvin
+                  );
+  // Create particles in the right room coffee cup
+  for (int rp = 0; rp < COFFEE.NUMBER_OF_PARTICLES; rp++)
+    RRC_particles.add(new Particle(
+                                random(xCupRightSide+COFFEE.PARTICLE_DIAMETER/2, (width-width/2/5)-COFFEE.PARTICLE_DIAMETER/2),
+                                random((yCup-2*(height/5))+COFFEE.PARTICLE_DIAMETER/2, yCup-COFFEE.PARTICLE_DIAMETER/2),
+                                COFFEE.PARTICLE_DIAMETER/2,
+                                COFFEE_PARTICLE_COLOR)
+                  .setMass(COFFEE.MASS)
+                  .setSpecificHeat(COFFEE.SPECIFIC_HEAT)
+                  .setTemperature(363) // Kelvin
+                  );
+  // Create particles in the right room creamer cup
+  for (int rp = 0; rp < CREAMER.NUMBER_OF_PARTICLES; rp++)
+    RRCREAMER_particles.add(new Particle(
+                                random(xCreamerCup+CREAMER.PARTICLE_DIAMETER/2, (xCupRightSide-width/2/7)-CREAMER.PARTICLE_DIAMETER/2),
+                                random((yCup-height/5)+CREAMER.PARTICLE_DIAMETER/2, yCup-CREAMER.PARTICLE_DIAMETER/2),
+                                CREAMER.PARTICLE_DIAMETER/2,
+                                CREAMER_PARTICLE_COLOR)
+                  .setMass(CREAMER.MASS)
+                  .setSpecificHeat(CREAMER.SPECIFIC_HEAT)
+                  .setTemperature(283.15) // Kelvin
+                  );
+                  
+                  
+  leftRoomParticles.addAll(LR_particles);
+  leftRoomParticles.addAll(LRC_particles);
+  rightRoomParticles.addAll(RR_particles);
+  rightRoomParticles.addAll(RRC_particles);
+  rightRoomParticles.addAll(RRCREAMER_particles);
 }
 
 void draw() {
@@ -64,19 +120,33 @@ void draw() {
     p.show();
     p.update();
   }
+  for (Particle p : LRC_particles) {
+    p.show();
+    p.update(leftCoffeeCupInvisibleWall);
+  }
+  
   for (Particle p : RR_particles) {
     p.show();
     p.update();
   }
+  for (Particle p : RRC_particles) {
+    p.show();
+    p.update(rightCoffeeCupInvisibleWall);
+  }
+  for (Particle p : RRCREAMER_particles) {
+    p.show();
+    p.update(rightCreamerCupInvisibleWall);
+  }
 
-  // Left room particle collision
-  checkCollision(LR_particles, walls);
-  // Right room particle collision
-  checkCollision(RR_particles, walls);
+  checkCollision(leftRoomParticles, walls);
+  checkCollision(rightRoomParticles, walls);
   
   fill(0);
   textSize(24);
-  text("Average velocity: " + truncateDecimal(averageVelocity(LR_particles), 3), 25, 30);
+  text("Average LR velocity:   " + truncateDecimal(averageVelocity(LR_particles), 3), 25, 30);
+  text("Average RR velocity:   " + truncateDecimal(averageVelocity(RR_particles), 3), 25, 54);
+  text("Average LRC velocity: " + truncateDecimal(averageVelocity(LRC_particles), 3), 25, 78);
+  text("Average RRC velocity: " + truncateDecimal(averageVelocity(LRC_particles), 3), 25, 102);
   noFill();
   // Right side of the room: Coffee and creamer in the room for 30 minutes and then mixed
 }
