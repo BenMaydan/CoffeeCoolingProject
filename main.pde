@@ -31,29 +31,27 @@ void settings() {
   walls[ADD_WALL_INDEX++] = new Integer[] {xCupRightSide-width/2/7, yCup, xCupRightSide-width/2/7, yCup-height/5};
 
 
-  // Create LR_particles in the left room
+  // Create particles in the left room
   for (int rp = 0; rp < ROOM.NUMBER_OF_PARTICLES; rp++)
     LR_particles.add(new Particle(
                                 random(ROOM.PARTICLE_DIAMETER/2, width/2-ROOM.PARTICLE_DIAMETER/2),
                                 random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2),
                                 ROOM.PARTICLE_DIAMETER/2,
                                 ROOM_PARTICLE_COLOR)
-                  .setVelocity(random(-5, 5), random(-5, 5))
                   .setMass(ROOM.MASS)
                   .setSpecificHeat(ROOM.SPECIFIC_HEAT)
-                  .setTemperature(20)
+                  .setTemperature(303) // Kelvin
                   );
-  // Create RR_particles in the left room
+  // Create particles in the left room
   for (int rp = 0; rp < ROOM.NUMBER_OF_PARTICLES; rp++)
     RR_particles.add(new Particle(
                                 random(width/2+ROOM.PARTICLE_DIAMETER/2, width-ROOM.PARTICLE_DIAMETER/2),
                                 random(ROOM.PARTICLE_DIAMETER/2, (yCup-2*(height/5))-ROOM.PARTICLE_DIAMETER/2),
                                 ROOM.PARTICLE_DIAMETER/2,
                                 ROOM_PARTICLE_COLOR)
-                  .setVelocity(random(-5, 5), random(-5, 5))
                   .setMass(ROOM.MASS)
                   .setSpecificHeat(ROOM.SPECIFIC_HEAT)
-                  .setTemperature(20)
+                  .setTemperature(303) // Kelvin
                   );
 }
 
