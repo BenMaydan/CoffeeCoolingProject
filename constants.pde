@@ -1,5 +1,5 @@
 static class ROOM {
-  static final int NUMBER_OF_PARTICLES = 250;
+  static final int NUMBER_OF_PARTICLES = 150;
   static final float PARTICLE_DIAMETER = 20;
   static final double DENSITY = 920;
   static final double MASS = 14.0067;
